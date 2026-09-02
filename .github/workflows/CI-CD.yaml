@@ -42,7 +42,7 @@ jobs:
 
       - name: Deploy via SSM
         run: |
-          COMMAND_ID=$(aws ssm send-command \
+          aws ssm send-command \
           --targets '[{"Key":"tag:Env","Values":["Development"]}]' \
           --document-name "AWS-RunShellScript" \
           --comment "Deploy ${{ github.sha }}" \
@@ -53,20 +53,12 @@ jobs:
           "docker run -d --name backend -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/backend:'"${GITHUB_SHA}"'"
           ]' \
             --query "Command.CommandId" \
-            --output text)
-          echo "command_id=$COMMAND_ID" >> "$GITHUB_OUTPUT"
-          echo "Sent command: $COMMAND_ID"
-      
-          sleep 5
-      
-          aws ssm list-commands \
-          --command-id "$COMMAND_ID" \
-          --query "Commands[0].[CommandId,Status,TargetCount,CompletedCount,ErrorCount]" \
-          --output table
-      - name: Check SSM invocation details
-        run: |
-          aws ssm list-command-invocations \
-            --command-id "831204bf-0fe9-4a15-b3c3-de823316c5e2" \
-            --details \
-            --output json
+            --output text
+
+#      - name: Check SSM invocation details
+#        run: |
+#          aws ssm list-command-invocations \
+#            --command-id "831204bf-0fe9-4a15-b3c3-de823316c5e2" \
+#            --details \
+#            --output json
           
