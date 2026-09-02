@@ -53,9 +53,14 @@ jobs:
               "docker run -d --name backend -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/backend:'"${GITHUB_SHA}"'"
             ]' \
             --output text
-      - name: Check SSM target count
-        run: |
+            --query "Command.CommandId" \
+            --output text)
+            echo "command_id=$COMMAND_ID" >> "$GITHUB_OUTPUT"
+            echo "Sent command: $COMMAND_ID"
+
             sleep 5
+
             aws ssm list-commands \
-              --command-id "${{ steps.deploy.outputs.command_id }}" \
-              --output json
+            --command-id "$COMMAND_ID" \
+            --query "Commands[0].[CommandId,Status,TargetCount,CompletedCount,ErrorCount]" \
+            --output table
