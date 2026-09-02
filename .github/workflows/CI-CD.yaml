@@ -43,7 +43,7 @@ jobs:
       - name: Deploy via SSM
         run: |
           aws ssm send-command \
-            --instance-ids "i-0685d4da8d0eec45a" \
+            --targets "Key=tag:Env,Values=Development"  \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy ${{ github.sha }}" \
             --parameters commands='[
