@@ -43,7 +43,7 @@ jobs:
       - name: Deploy via SSM
         run: |
           aws ssm send-command \
-            --targets "Key=tag:Env,Values=Development"  \
+            --targets "Key=Env,Values=Development"  \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy ${{ github.sha }}" \
             --parameters commands='[
@@ -53,3 +53,9 @@ jobs:
               "docker run -d --name backend -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/backend:'"${GITHUB_SHA}"'"
             ]' \
             --output text
+      - name: Check SSM target count
+        run: |
+            sleep 5
+            aws ssm list-commands \
+              --command-id "${{ steps.deploy.outputs.command_id }}" \
+              --output json
