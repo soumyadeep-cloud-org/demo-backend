@@ -10,11 +10,11 @@ public class GreetingController {
 
     @GetMapping("/")
     public ResponseEntity<String> healthCheck(){
-        return ResponseEntity.status(HttpStatus.OK).body("I am healthy");
+        return ResponseEntity.status(HttpStatus.OK).body("Healthy!!");
     }
 
     @GetMapping("/greet")
     public ResponseEntity<String> greet(){
-        return ResponseEntity.status(HttpStatus.OK).body("Hello from: "+System.getenv("HOST_NAME"));
+        return ResponseEntity.status(HttpStatus.OK).body("Hello from EC2 instance with hostname: "+System.getenv("HOST_NAME"));
     }
 }
