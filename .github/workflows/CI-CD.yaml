@@ -63,10 +63,11 @@ jobs:
           --command-id "$COMMAND_ID" \
           --query "Commands[0].[CommandId,Status,TargetCount,CompletedCount,ErrorCount]" \
           --output table
-      - name: Check SSM invocation details
-        run: |
+          
           aws ssm list-command-invocations \
-            --command-id "831204bf-0fe9-4a15-b3c3-de823316c5e2" \
-            --details \
-            --output json
+          --command-id COMMAND_ID \
+          --details \
+          --output json
+      
+          
           
