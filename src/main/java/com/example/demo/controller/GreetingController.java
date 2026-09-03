@@ -10,6 +10,6 @@ public class GreetingController {
 
     @GetMapping("/greet")
     public ResponseEntity<String> greet(){
-        return ResponseEntity.status(HttpStatus.OK).body("Hi,I am Java Backend!");
+        return ResponseEntity.status(HttpStatus.OK).body("Hi,I am Backend Server!");
     }
 }
