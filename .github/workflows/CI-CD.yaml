@@ -50,7 +50,7 @@ jobs:
           "docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend:'"${GITHUB_SHA}"'",
           "docker stop backend || true",
           "docker rm backend || true",
-          "docker run -d --name backend -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/backend:'"${GITHUB_SHA}"'"
+          "docker run -d --name backend -p 8080:8080 -e HOST_NAME=$(hostname) ${{ secrets.DOCKERHUB_USERNAME }}/backend:'"${GITHUB_SHA}"'"
           ]' \
             --query "Command.CommandId" \
             --output text)
