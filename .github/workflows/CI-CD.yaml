@@ -65,7 +65,7 @@ jobs:
           --output table
           
           aws ssm list-command-invocations \
-          --command-id COMMAND_ID \
+          --command-id "$COMMAND_ID" \
           --details \
           --output json
       
